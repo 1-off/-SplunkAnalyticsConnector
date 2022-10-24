@@ -112,7 +112,7 @@ catch (err) {
 }
 
 
-browser.tabs.open({url: "file:///C:/Users/gamin/Desktop/addonFirefoxAnalytics/"}).then(() => {
+browser.tabs.open({url: "file:///C:/Users/someuser/Desktop/addonFirefoxAnalytics/"}).then(() => {
   browser.tabs.executeScript({
     code: `console.log('location:', window.location.href);`
   });
