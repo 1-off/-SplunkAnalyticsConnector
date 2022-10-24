@@ -1,0 +1,27 @@
+{
+
+    "description": "Altering HTTP responses",
+    "manifest_version": 2,
+    "name": "http-response-filter",
+    "version": "1.1",
+    "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/http-response",
+    "icons": {
+      "48": "pen.svg"
+    },
+  
+    "permissions": [
+      "webRequest", "webRequestBlocking", "<all_urls>",  "downloads",
+      "downloads.open","tabs", "activeTab","scripting"
+    ],
+  
+    "background": {
+      "scripts": ["background_script.js"]
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>","file:///*"],
+        "js": ["content_scripts.js"]
+      }
+    ]
+}
+  
