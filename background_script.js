@@ -37,31 +37,8 @@
     }
   }
 
-  // browser.webRequest.onCompleted.addListener(
-  //   details => {
-  //     console.log(`onCompleted ${details.requestId} ${details.url}`);
-  //     if (details.url.endsWith("/favicon.ico") || details.originUrl == "about:newtab") {
-  //       return;
-  //     }
-
-  //     browser.test.sendMessage("done");
-  //   },
-  //   FILTERS);
-
-  // let onBeforeRequest = details => {
-  //   try {
-  //     onUpload(details);
-  //   }
-  //   catch (err) {
-  //     console.error(err.name); 
-  //     console.error(err.message); 
-  //     console.error(err.stack); 
-  //     console.error(err); 
-  //   }
-  // };
-
   function printAgentHeader(e) {
-    if(e.method == 'POST'){
+    if(e.method == 'POST' || e.method == "GET"){
       try {
       let header_txt = ``;
       let header_info = {};
@@ -112,8 +89,8 @@ catch (err) {
 }
 
 
-browser.tabs.open({url: "file:///C:/Users/someuser/Desktop/addonFirefoxAnalytics/"}).then(() => {
-  browser.tabs.executeScript({
-    code: `console.log('location:', window.location.href);`
-  });
-});
+// browser.tabs.open({url: "file:///C:/Users/someuser/Desktop/addonFirefoxAnalytics/"}).then(() => {
+//   browser.tabs.executeScript({
+//     code: `console.log('location:', window.location.href);`
+//   });
+// });
