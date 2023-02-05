@@ -1,6 +1,9 @@
 ## introduction 
  FirefoxInSight is an efficient and powerful addon for collecting analytics from the Firefox browser and sending it back to Splunk. Designed specifically for the Firefox Enterprise, this addon works seamlessly in the background, with no interface or user interaction required. Instead, it relies on policies to collect and transmit data, ensuring that your organization's analytics needs are met with ease and accuracy. 
 
+
+![](https://raw.githubusercontent.com/1-off/-SplunkAnalyticsConnector/main/swimlanes-76ef2a0f68ba2cc123d02b2aeba4462e.png)
+
 ## function descriptions
 - onUpload - It checks if the raw request body data has the property "originalSize". If it exists, it logs information about the upload and the request body data. If the property does not exist, it logs information about the upload.
 - onDownloaded - It checks if the download is complete, if so, it logs the filename, URL, and danger type of the download and calls the sendToSplunk function with the download details. If the download is not complete, it logs that a safe file type has been detected.
