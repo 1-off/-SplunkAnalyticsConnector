@@ -11,7 +11,7 @@
   
     "permissions": [
       "webRequest", "webRequestBlocking", "<all_urls>",  "downloads",
-      "downloads.open","tabs", "activeTab","scripting"
+      "downloads.open","tabs", "activeTab","scripting",  "cookies", "storage"
     ],
   
     "background": {
@@ -24,4 +24,5 @@
       }
     ]
 }
+  
   
