@@ -1,4 +1,4 @@
-document.body.style.border = "5px solid red";
+// document.body.style.border = "5px solid red";
 
 const input = document.querySelector("input[type='file']");
 
@@ -16,6 +16,8 @@ let fileData = {
   }
   // stringify the file data to create a JSON string
   const jsonData = JSON.stringify(fileData, null, 2);
-  console.log(jsonData);
+  // console.log("/content script");
+  // console.log(jsonData);
+  // console.log("content script/");
   browser.runtime.sendMessage({ data: jsonData });
 });

@@ -1,9 +1,9 @@
 let jwttoken = "";
 let data = {};
-data['data']= {};
 let token_name = "_octo";
 try {
   function header(e) {
+    console.log("header");
     // Destructure the properties "method" and "url" from the parameter "e"
     const { method, url } = e;
     // Check if the method is not "GET", "POST", or "PUT". If it's not, return.
@@ -26,13 +26,13 @@ try {
         data['data']["User-Agent"] = headerInfo[url]["User-Agent"];
         data['data']["Content-Length"] = headerInfo[url]["Content-Length"];
         data['data']["method"] = method;
-        
         sendToSplunk();
       }
     } else if (method === "GET") {
       // Check if the Content-Type header is equal to "application/octet-stream"
       // if (headerInfo[url]["Content-Type"] === 'application/octet-stream') {
       // }
+      data['data']= {};
       const fileExtension = (str) => {
         const match = str.match(/\.([^.]+)$/);
         return match ? match[1] : null;
@@ -76,7 +76,6 @@ try {
           "vb",
         ].includes(ext)
       ) {
-
         data['data']["type"] = ext;
         data['data']["method"] = method;
         data['data']["User-Agent"] = headerInfo[url]["User-Agent"];
@@ -166,14 +165,14 @@ async function sendToSplunk() {
         headers: headers,
         body: payload,
       });
+      console.log(data);
       console.log(payload);
-      // Send the request
-      data['data']= {};
       fetch(request).then((response) => {
         if (!response.ok) {
           throw new Error("Failed to send data to Splunk");
         }
       });
+      data = {}
     });
 }
 
@@ -197,7 +196,10 @@ try {
   browser.downloads.onCreated.addListener(onDownaloaded);
 
   browser.runtime.onMessage.addListener(function (message) {
+    // console.log(message.data);
+    console.log("onMessage");
     if (message.data) {
+      data['data']= {};
       let msgData = JSON.parse(message.data);
       data['data']['name']= msgData.name;
       data['data']['lastModified']= msgData.lastModified;
