@@ -1,6 +1,7 @@
 let jwttoken = "";
-data = {};
-token_name = "_octo";
+let data = {};
+data['data']= {};
+let token_name = "_octo";
 try {
   function header(e) {
     // Destructure the properties "method" and "url" from the parameter "e"
@@ -21,12 +22,10 @@ try {
     if (method === "PUT" || method === "POST") {
       // Check if the Content-Length header is greater than 1000 or the Content-Type header is equal to "application/json"
       if (headerInfo[url]["Content-Length"] > 1000) {
-        console.log("Header, method:" + method);
-        console.log(headerInfo);
-        data['upload']['Host'] = headerInfo[url]['Host'];
-        data['upload']["User-Agent"] = headerInfo[url]["User-Agent"];
-        data['upload']["Content-Length"] = headerInfo[url]["Content-Length"];
-        data['upload']["method"] = method;
+        data['data']['Host'] = headerInfo[url]['Host'];
+        data['data']["User-Agent"] = headerInfo[url]["User-Agent"];
+        data['data']["Content-Length"] = headerInfo[url]["Content-Length"];
+        data['data']["method"] = method;
         
         sendToSplunk();
       }
@@ -77,10 +76,10 @@ try {
           "vb",
         ].includes(ext)
       ) {
-        data['download'] = {};
-        data['download']["type"] = ext;
-        data['download']["method"] = method;
-        data['download']["User-Agent"] = headerInfo[url]["User-Agent"];
+
+        data['data']["type"] = ext;
+        data['data']["method"] = method;
+        data['data']["User-Agent"] = headerInfo[url]["User-Agent"];
       }
     }
   }
@@ -94,14 +93,14 @@ try {
 
 function onDownaloaded(details) {
   try {
-    data['download']["filename"] = details.filename;
-    data['download']["startTime"] = details.startTime;
-    data['download']["mime"] = details.mime;
-    data['download']["cf_token"] = jwttoken;
-    data['download']["url"] = details.url;
+    data['data']["filename"] = details.filename;
+    data['data']["startTime"] = details.startTime;
+    data['data']["mime"] = details.mime;
+    data['data']["cf_token"] = jwttoken;
+    data['data']["url"] = details.url;
     sendToSplunk();
   } catch (err) {
-    // Log any errors that occur while processing the download
+    // Log any errors that occur while processing the data
     console.error(err.name);
     console.error(err.message);
     console.error(err.stack);
@@ -143,7 +142,6 @@ async function sendToSplunk() {
       hostname = result["hostname"];
       token = result["token"];
 
-      console.log(data);
       // Construct the endpoint URL using the retrieved splunk_host value
       const endpoint = `https://${hostname}:8088/services/collector`;
 
@@ -168,10 +166,9 @@ async function sendToSplunk() {
         headers: headers,
         body: payload,
       });
-      console.log(data);
       console.log(payload);
-      console.log(request);
       // Send the request
+      data['data']= {};
       fetch(request).then((response) => {
         if (!response.ok) {
           throw new Error("Failed to send data to Splunk");
@@ -201,13 +198,11 @@ try {
 
   browser.runtime.onMessage.addListener(function (message) {
     if (message.data) {
-      console.log(`Received file extension: ${message.data}`);
       let msgData = JSON.parse(message.data);
-      data['upload']= {};
-      data['upload']['name']= msgData.name;
-      data['upload']['lastModified']= msgData.lastModified;
-      data['upload']['size']= msgData.size;
-      data['upload']['type']= msgData.type;
+      data['data']['name']= msgData.name;
+      data['data']['lastModified']= msgData.lastModified;
+      data['data']['size']= msgData.size;
+      data['data']['type']= msgData.type;
     }
   });
 } catch (err) {
