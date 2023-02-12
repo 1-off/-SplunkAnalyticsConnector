@@ -3,7 +3,6 @@ let data = {};
 let token_name = "_octo";
 try {
   function header(e) {
-    console.log("header");
     // Destructure the properties "method" and "url" from the parameter "e"
     const { method, url } = e;
     // Check if the method is not "GET", "POST", or "PUT". If it's not, return.
